@@ -1,13 +1,127 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
-  <title>ProyectoV1</title>
-  <base href="/">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Proyecto IEEE - IBM</title>
+
+  <style>
+    html, body, #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+    /* ADD */
+    .esri-view .esri-directions {
+      position: fixed;
+      right: 15px;
+    }
+    .esri-view .esri-component.esri-attribution {
+      position: fixed;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <base href="/">
+
+  <script src="https://js.arcgis.com/4.15/"></script>
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/widgets/Directions"
+    ], function (Map, MapView, Directions) {
+
+      var map = new Map({
+        //*** UPDATE ***//
+        basemap: "streets-navigation-vector"
+      });
+
+      var view = new MapView({
+        container: "viewDiv",
+        map: map,
+        //*** ADD ***//
+        center: [-118.24532, 34.05398],
+        zoom: 12,
+        padding: {
+          right: 320
+        }
+      });
+
+      var directions = new Directions({
+        view: view,
+        //*** ADD ***/
+        routeServiceUrl: "https://udistritalfjc.maps.arcgis.com/apps/Directions/index.html?appid=2ac39a5b175046239f0ca7b65ab98dbe"
+        
+      });
+
+      view.ui.add(directions, "top-right");
+
+      var routeTask = new RouteTask({
+        url: "udistritalfjc.maps.arcgis.com/apps/Embed/index.html"
+      });
+
+      view.on("click", function (event) {
+        if (view.graphics.length === 0) {
+          addGraphic("start", event.mapPoint);
+        } else if (view.graphics.length === 1) {
+          addGraphic("finish", event.mapPoint);
+          //*** ADD ***//
+          getRoute();
+        } else {
+          view.graphics.removeAll();
+          addGraphic("start", event.mapPoint);
+        }
+      });
+
+      function addGraphic(type, point) {
+        var graphic = new Graphic({
+          symbol: {
+            type: "simple-marker",
+            color: (type === "start") ? "white" : "black",
+            size: "8px"
+          },
+          geometry: point
+        });
+        view.graphics.add(graphic);
+      }
+
+      function getRoute() {
+        // Setup the route parameters
+        var routeParams = new RouteParameters({
+          stops: new FeatureSet({
+            features: view.graphics.toArray() // Pass the array of graphics
+          }),
+          returnDirections: true
+        });
+        // Get the route
+        routeTask.solve(routeParams).then(function (data) {
+          // Display the route
+          data.routeResults.forEach(function (result) {
+            result.route.symbol = {
+              type: "simple-line",
+              color: [5, 150, 255],
+              width: 3
+            };
+            view.graphics.add(result.route);
+          });
+        });
+      }
+
+    });
+  </script>
+
 </head>
+
 <body>
   <app-root></app-root>
 </body>
+
 </html>
