@@ -1,27 +1,10 @@
 # ProyectoV1
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.3.
+Implementar un sistema de información geográfica para que funcione en una página web, donde, se conozca la información actualizada de los hospitales, vías, contagiados, el estado en que se encuentran, el tipo de contagio, entre otros factores.
+Además de permitir ingresar la ubicación de la persona y reconocer la mejor ruta para llegar al hospital o centro de atención médica más cercano.
+Para el prototipo, el cual, funciona de forma local se decidió tomar el municipio de Leticia, ubicado en el departamento del Amazonas.
+Elegimos este municipio tras el aumento de contagio que ha presentado en el último mes, así como, la alta vulnerabilidad y desinformación de la zona.
+Los datos de contagio son obtenidos de la página oficial del Instituto Nacional de salud.
+Los shapefiles de vías, hospitales y municipios fueron descargados de la página de datos abiertos del gobierno nacional.
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+# Página web: www.datos.gov.co
