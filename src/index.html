@@ -9,17 +9,21 @@
   <title>Proyecto IEEE - IBM</title>
 
   <style>
-    html, body, #viewDiv {
+    html,
+    body,
+    #viewDiv {
       padding: 0;
       margin: 0;
       height: 100%;
       width: 100%;
     }
+
     /* ADD */
     .esri-view .esri-directions {
       position: fixed;
       right: 15px;
     }
+
     .esri-view .esri-component.esri-attribution {
       position: fixed;
     }
@@ -34,32 +38,33 @@
 
   <script>
     require([
-      "esri/Map",
+      "esri/WebMap",
       "esri/views/MapView",
       "esri/widgets/Directions"
-    ], function(Map, MapView, Directions) {
+    ], function (WebMap, MapView, Directions) {
 
-      var map = new Map({
-        //*** UPDATE ***//
-        basemap: "streets-navigation-vector"
+      var webmap = new WebMap({
+        portalItem: {
+          id: "42e1d015e26a4d4b92ace8eb888117f4"
+        }
       });
 
       var view = new MapView({
         container: "viewDiv",
-        map: map,
+        map: webmap,
         //*** ADD ***//
-        center: [-118.24532,34.05398],
-        zoom: 12,
+        //center: [-118.24532,34.05398],
+        zoom: 15,
         padding: {
           right: 320
         }
       });
 
       var directions = new Directions({
-         view: view,
-         //*** ADD ***/
-         routeServiceUrl:"https://utility.arcgis.com/usrsvcs/appservices/2gP7o8aUaqOeOaDk/rest/services/World/Route/NAServer/Route_World"
-       });
+        view: view,
+        //*** ADD ***/
+        routeServiceUrl: "https://utility.arcgis.com/usrsvcs/appservices/2gP7o8aUaqOeOaDk/rest/services/World/Route/NAServer/Route_World"
+      });
 
       view.ui.add(directions, "top-right");
     });
